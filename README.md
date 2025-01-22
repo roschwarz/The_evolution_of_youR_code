@@ -97,7 +97,43 @@ Now your package is installed and can be globally accessed.
 
 7. Setup a test frame framework
 
+use_testthat creates the test environment that is needed.
+
 ```
-library(devtools) use_testthat()
+library(devtools) 
+use_testthat()
 ```
+
+After the setup you can write tests in 'tests/testthat'. Therefore create a file, i.e.,
+`test_filter.R` and put in the following test:
+
+```
+test_that("Check if NA is correctly filtered.", {
+
+    quality_scores <- c(1,45,4,2,1,23, NA)
+
+    expect_equal(anyNA(filter_reads(quality_scores)), FALSE)
+})
+```
+
+This test is checking if an NA is in contain in the result vector.
+
+Call `test()` to run all your tests
+
+
+```
+library(devtools)
+test()
+```
+
+Additional test:
+
+```
+test_that('Check if the filter works correctly.', {
+    quality_scores <- c(1,45,4,2,1,23, 18,17, NA)
+
+    expect_gt(min(filter_reads(quality_scores, threshold = 17)), 17)
+})
+```
+
 
